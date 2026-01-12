@@ -1,0 +1,49 @@
+-- Drop old storage policies (Optional)
+drop policy if exists "Public read images" on storage.objects;
+drop policy if exists "Admin upload images" on storage.objects;
+drop policy if exists "Admin delete images" on storage.objects;
+drop policy if exists "Admin update images" on storage.objects;
+
+
+
+-- Anyone can read images
+create policy "Public read images"
+on storage.objects
+for select
+using (bucket_id = 'products');
+
+-- Only admin can upload
+create policy "Admin upload images"
+on storage.objects
+for insert
+with check (
+  bucket_id = 'products'
+  AND auth.email() = 'admin@company.com'
+);
+
+-- Only admin can delete
+create policy "Admin delete images"
+on storage.objects
+for delete
+using (
+  bucket_id = 'products'
+  AND auth.email() = 'admin@company.com'
+);
+
+-- Only admin can update files (overwrite existing)
+create policy "Admin update images"
+on storage.objects
+for update
+using (
+  bucket_id = 'products'
+  AND auth.email() = 'admin@company.com'
+)
+with check (
+  bucket_id = 'products'
+  AND auth.email() = 'admin@company.com'
+);
+
+-- List all emails currently in Supabase Auth
+select email from auth.users;
+
+-- If want to change admin, run drop commands and rerun admin commands

@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🐼 Pixel Panda
 
-## Getting Started
+**Pixel Panda** is a premium digital assets marketplace designed with a high-end, glassy aesthetic and fluid mascot animations. Built with Next.js 15, it offers a seamless experience for creators and collectors to explore iconic digital items.
 
-First, run the development server:
+![Pixel Panda Preview](public/hero.svg)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## ✨ Core Features
+
+- **Organic Mascot Animations**: Custom triple-layered CSS animations for the Panda and Penguin mascots, creating an intensive "alive" UI.
+- **Glassy Design System**: A sleek, modern interface utilizing backdrop blurs, vibrant gradients, and premium typography.
+- **Interactive Cart Sidebar**: A seamless, non-disruptive shopping experience with a real-time side drawer.
+- **Professional Contact Suite**: Integrated social proof and a streamlined communication channel for clients.
+- **Admin Dashboard**: Comprehensive management interface for asset control (role-based access).
+
+## 🛠️ Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/)
+- **Components**: [Shadcn UI](https://ui.shadcn.com/) & [Radix UI](https://www.radix-ui.com/)
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **State Management**: React Context API
+- **Animations**: CSS Keyframes (Triple-Layered Composition)
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18.x or above
+- npm / yarn / pnpm
+
+### Installation
+
+1. **Clone the repository:**
+
+   ```bash
+   git clone https://github.com/Abdullaha2h/pixel-panda.git
+   cd pixel-panda
+   ```
+
+2. **Install dependencies:**
+
+   ```bash
+   npm install
+   ```
+
+3. **Set up environment variables:**
+   Create a `.env` file in the root directory and add your configuration (MongoDB, JWT secrets, etc.).
+
+4. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🎨 Design Philosophy
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Pixel Panda follows a **"Premium First"** approach. We avoid generic components in favor of:
 
-## Learn More
+- Deep drop shadows (`rgba(var(--primary), 0.3)`)
+- Custom micro-animations
+- High-contrast, bold typography
+- Interactive states that feel alive
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Created with ❤️ by the Pixel Panda Team.

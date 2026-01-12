@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -12,7 +12,8 @@ import {
     Filter,
     Sparkles,
     LayoutGrid,
-    ArrowUpDown
+    ArrowUpDown,
+    Loader2
 } from 'lucide-react';
 import ProductCard from '@/components/product-card';
 import {
@@ -45,7 +46,7 @@ interface Product {
 
 const CATEGORIES = ['Templates', 'Icons', 'UI Kits', 'Fonts', 'Themes', 'Other'];
 
-export default function MarketplacePage() {
+function MarketplaceContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
 
@@ -325,5 +326,17 @@ export default function MarketplacePage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function MarketplacePage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-background">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        }>
+            <MarketplaceContent />
+        </Suspense>
     );
 }

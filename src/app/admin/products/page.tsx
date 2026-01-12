@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Button } from '@/components/ui/button';
@@ -27,7 +27,7 @@ interface Product {
     createdAt: string;
 }
 
-export default function AdminProductsPage() {
+function AdminProductsContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const [products, setProducts] = useState<Product[]>([]);
@@ -220,5 +220,17 @@ export default function AdminProductsPage() {
                 </div>
             )}
         </div>
+    );
+}
+
+export default function AdminProductsPage() {
+    return (
+        <Suspense fallback={
+            <div className="flex justify-center p-12">
+                <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </div>
+        }>
+            <AdminProductsContent />
+        </Suspense>
     );
 }

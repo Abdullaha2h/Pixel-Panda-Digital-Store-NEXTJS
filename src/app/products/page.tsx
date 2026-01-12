@@ -201,7 +201,7 @@ function MarketplaceContent() {
                             <Search className="absolute left-4 top-4 h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                             <Input
                                 type="search"
-                                placeholder="Search 'Landing Page Kit'..."
+                                placeholder="'Icons'"
                                 className="pl-12 h-14 rounded-full shadow-2xl shadow-primary/10 border-muted/40 bg-background/90 backdrop-blur-xl focus-visible:ring-primary/30 text-lg transition-all hover:shadow-primary/20"
                                 value={search}
                                 onChange={(e) => setSearch(e.target.value)}

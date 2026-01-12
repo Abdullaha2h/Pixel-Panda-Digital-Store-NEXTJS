@@ -335,8 +335,8 @@ export default function Navbar() {
                                                         <div className="flex left-2 items-center pb-2 pr-4 justify-end">
                                                             <Button
                                                                 variant="destructive"
-                                                                onClick={(e) => {
-                                                                    logout(e);
+                                                                onClick={() => {
+                                                                    logout();
                                                                     setIsMobileMenuOpen(false);
                                                                 }}
                                                                 className="w-full max-w-[200px] justify-start gap-2"

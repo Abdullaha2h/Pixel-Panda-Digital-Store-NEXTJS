@@ -2,7 +2,7 @@
 
 **Pixel Panda** is a premium digital assets marketplace designed with a high-end, glassy aesthetic and fluid mascot animations. Built with Next.js 15, it offers a seamless experience for creators and collectors to explore iconic digital items.
 
-![Pixel Panda Preview](public/hero.svg)
+<img src="public/hero.svg" alt="Pixel Panda Preview" width="200" />
 
 ## ✨ Core Features
 

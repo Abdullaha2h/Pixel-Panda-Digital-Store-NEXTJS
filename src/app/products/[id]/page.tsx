@@ -20,6 +20,9 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
     try {
         await dbConnect();
 
+        // Ensure User model is registered (Mongoose population requirement)
+        if (!User) console.log('User model loading...');
+
         // Find product and populate creator info
         // We use lean() to get a plain JS object, which is better for RSC -> Client components
         const productData = await Product.findById(id)

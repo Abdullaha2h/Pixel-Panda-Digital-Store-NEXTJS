@@ -7,8 +7,10 @@ import { useRef } from 'react';
 import { ArrowRight, ShoppingCart, Star, Zap, Diamond, Crown, Loader2, Sparkles, Heart, Move } from 'lucide-react';
 import Image from 'next/image';
 import FeaturedCarousel from '@/components/featured-carousel';
+import { useAuth } from '@/context/auth-context';
 
 export default function Home() {
+  const { user } = useAuth();
   const [featuredProducts, setFeaturedProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [isPopping, setIsPopping] = useState(false);
@@ -123,11 +125,11 @@ export default function Home() {
         <div className="container md:px-4 mx-auto relative z-10">
           {/* Mobile Panda */}
           <div className="lg:hidden flex justify-center mb-5">
-          
+
             <div className="animate-panda-sway">
               <div className="animate-panda-breathe">
-                   {/* Blush Hearts */}
-                
+                {/* Blush Hearts */}
+
                 <div
                   className={`relative w-48 h-48 sm:w-64 sm:h-64 cursor-pointer transition-all duration-700 ease-out 
                       active:scale-95
@@ -170,9 +172,9 @@ export default function Home() {
                     Explore Market <ShoppingCart className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href="/signup">
+                <Link href={user ? "/products" : "/signup"}>
                   <Button variant="outline" size="lg" className="h-11 sm:h-12 px-6 sm:px-8 rounded-full text-sm sm:text-base">
-                    Start Creating <ArrowRight className="ml-2 h-4 w-4" />
+                    {user ? 'Start Exploring' : 'Start Creating'} <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </div>
@@ -208,9 +210,9 @@ export default function Home() {
                 onMouseEnter={() => setShowBlush(true)}
                 onMouseLeave={() => setShowBlush(false)}
               >
-           
 
-            
+
+
 
                 {/* Triple Layered Animation: Sway -> Breathe -> Interaction */}
                 <div className="animate-panda-sway pointer-events-none"> {/* Disable pointer events to let parent handle drag */}
@@ -302,11 +304,11 @@ export default function Home() {
         <div className="container px-4 mx-auto">
           <h2 className="text-3xl md:text-5xl font-black mb-6">Ready to start your collection?</h2>
           <p className="text-lg text-muted-foreground mb-10 max-w-2xl mx-auto">
-            Join thousands of collectors on Pixel Panda. <br /> Sign up now and discover your next favorite asset.
+            {user ? 'Welcome back! Explore the marketplace and find your next masterpiece.' : 'Join thousands of collectors on Pixel Panda. Sign up now and discover your next favorite asset.'}
           </p>
-          <Link href="/signup">
+          <Link href={user ? "/products" : "/signup"}>
             <Button size="lg" className="h-12 px-10 rounded-full shadow-xl shadow-primary/20">
-              Get Started
+              {user ? 'Go to Marketplace' : 'Get Started'}
             </Button>
           </Link>
         </div>

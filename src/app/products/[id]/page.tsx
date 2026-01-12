@@ -51,12 +51,12 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
                             </code>
                         </div>
                     )}
-                    <button
-                        onClick={() => window.location.reload()}
-                        className="px-6 py-2 bg-primary text-white rounded-full font-bold hover:opacity-90 transition-opacity"
+                    <Link
+                        href="/products"
+                        className="inline-block px-6 py-2 bg-primary text-white rounded-full font-bold hover:opacity-90 transition-opacity"
                     >
-                        Try Again
-                    </button>
+                        Return to Marketplace
+                    </Link>
                 </div>
             </div>
         );

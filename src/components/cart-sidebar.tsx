@@ -18,9 +18,10 @@ import { Separator } from '@/components/ui/separator';
 
 export default function CartSidebar({ children }: { children: React.ReactNode }) {
     const { items, removeItem, total, count, updateQuantity } = useCart();
+    const [isOpen, setOpen] = React.useState(false);
 
     return (
-        <Sheet>
+        <Sheet open={isOpen} onOpenChange={setOpen}>
             <SheetTrigger asChild>
                 {children}
             </SheetTrigger>
@@ -57,7 +58,7 @@ export default function CartSidebar({ children }: { children: React.ReactNode })
                                 </p>
                             </div>
                             <SheetTrigger asChild>
-                                <Link href="/category/all">
+                                <Link href="/category/all" onClick={() => setOpen(false)}>
                                     <Button className="rounded-full px-8">
                                         Browse Marketplace
                                     </Button>
@@ -150,7 +151,7 @@ export default function CartSidebar({ children }: { children: React.ReactNode })
                             </div>
                         </div>
                         <div className="grid grid-cols-1 gap-2 w-full">
-                            <Link href="/cart" className="w-full">
+                            <Link href="/cart" className="w-full" onClick={() => setOpen(false)}>
                                 <Button className="w-full h-12 rounded-xl font-bold group" size="lg">
                                     Checkout Now
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

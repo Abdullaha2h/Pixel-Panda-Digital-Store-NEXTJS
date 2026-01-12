@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, ShoppingCart, Star, Zap, Diamond, Crown, Loader2 } from 'lucide-react';
+import { ArrowRight, ShoppingCart, Star, Zap, Diamond, Crown, Loader2, Sparkles } from 'lucide-react';
 import Image from 'next/image';
 import FeaturedCarousel from '@/components/featured-carousel';
 
@@ -37,37 +37,61 @@ export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="relative pl-20 pt-24 pb-16 overflow-hidden">
+      <section className="relative md:pl-20 pt-16 pb-16 overflow-hidden">
         <div className="absolute inset-0 -z-10 bg-linear-to-b from-primary/10 via-background to-background" />
-        <div className="container px-4 mx-auto relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            <div className="lg:col-span-7 pt-12 lg:pt-0 text-center lg:text-left pr-0 lg:pr-8">
-              <div className="inline-flex items-center rounded-full border border-primary/20 bg-primary/10 px-3 py-1 text-sm font-medium text-primary mb-6">
-                <span className="flex h-2 w-2 rounded-full bg-primary mr-2"></span>
-                New Collection Available
+        <div className="container md:px-4 mx-auto relative z-10">
+          {/* Mobile Panda */}
+            <div className="lg:hidden flex justify-center mb-5">
+              <div className="animate-panda-sway">
+                <div className="animate-panda-breathe">
+                  <div
+                    className={`relative w-48 h-48 sm:w-64 sm:h-64 cursor-pointer transition-all duration-700 ease-out 
+                      active:scale-95
+                      ${isPopping ? 'animate-pop' : ''}`}
+                    onClick={handlePandaClick}
+                  >
+                    <Image
+                      src="/mobile_hero.svg"
+                      alt="Pixel Panda Mascot"
+                      fill
+                      priority
+                      className="object-contain drop-shadow-[0_20px_50px_rgba(var(--primary),0.2)]"
+                    />
+                  </div>
+                </div>
               </div>
-              <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-6">
+            </div>
+          <div className="grid lg:grid-cols-12 gap-12 items-center justify-center">
+            <div className="lg:col-span-7 space-y-6 md:space-y-8 text-center lg:text-left">
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
+                <Sparkles className="h-4 w-4 text-primary" />
+                <span className="text-xs font-bold text-primary tracking-wider">PREMIUM MARKETPLACE</span>
+              </div>
+              <h1 className="text-3xl sm:text-4xl md:text-7xl font-black tracking-tight leading-[1.1]">
                 Discover & Collect <br />
                 <span className="text-primary italic">Exclusive</span> Digital Assets
               </h1>
-              <p className="text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 mb-8 leading-relaxed">
+              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                 Pixel Panda is the premium marketplace for unique digital creations.
                 Explore a world of limited edition assets from top creators.
               </p>
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-6">
+              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 sm:gap-6">
                 <Link href="/category/all">
-                  <Button size="lg" className="h-12 px-8 rounded-full shadow-lg shadow-primary/20">
+                  <Button size="lg" className="h-11 sm:h-12 px-6 sm:px-8 rounded-full shadow-lg shadow-primary/20 text-sm sm:text-base">
                     Explore Market <ShoppingCart className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
                 <Link href="/signup">
-                  <Button variant="outline" size="lg" className="h-12 px-8 rounded-full">
+                  <Button variant="outline" size="lg" className="h-11 sm:h-12 px-6 sm:px-8 rounded-full text-sm sm:text-base">
                     Start Creating <ArrowRight className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
               </div>
             </div>
 
+            
+
+            {/* Desktop Panda */}
             <div className="hidden lg:block lg:col-span-5 relative group">
               {/* Premium Glow Effect */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-primary/20 rounded-full blur-[100px] animate-glow-pulse -z-10" />

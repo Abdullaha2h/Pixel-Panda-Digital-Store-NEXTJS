@@ -3,10 +3,17 @@ import dbConnect from '@/lib/db';
 import Product from '@/models/Product';
 import { notFound } from 'next/navigation';
 import ProductDetailsClient from '@/components/product-details-client';
+import { isValidObjectId } from 'mongoose';
 
 
 export default async function ProductDetailsPage({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
+
+    // Validate MongoDB ObjectId format
+    if (!isValidObjectId(id)) {
+        console.error('Invalid product ID format:', id);
+        return notFound();
+    }
 
     try {
         await dbConnect();
@@ -14,6 +21,7 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
         const productData = await Product.findById(id).populate('createdBy', 'name email').lean();
 
         if (!productData) {
+            console.log('Product not found for ID:', id);
             return notFound();
         }
 
@@ -22,7 +30,7 @@ export default async function ProductDetailsPage({ params }: { params: Promise<{
 
         return <ProductDetailsClient product={product} />;
     } catch (error) {
-        console.error('Error in ProductDetailsPage:', error);
+        console.error('Error in ProductDetailsPage for ID:', id, error);
         return (
             <div className="container mx-auto px-4 py-24 text-center">
                 <h1 className="text-2xl font-bold">Something went wrong</h1>

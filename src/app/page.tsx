@@ -71,7 +71,7 @@ export default function Home() {
                 Discover & Collect <br />
                 <span className="text-primary italic">Exclusive</span> Digital Assets
               </h1>
-              <p className="text-sm sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed">
+              <p className="text-sm px-3 sm:text-base md:text-lg text-muted-foreground max-w-2xl mx-auto lg:mx-0 leading-relaxed">
                 Pixel Panda is the premium marketplace for unique digital creations.
                 Explore a world of limited edition assets from top creators.
               </p>

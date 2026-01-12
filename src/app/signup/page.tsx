@@ -39,13 +39,13 @@ export default function SignupPage() {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-background relative overflow-hidden">
+        <div className="flex pt-20  flex items-center justify-center bg-background relative overflow-hidden">
             {/* Background gradients */}
             <div className="absolute top-0 right-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl -z-10 animate-pulse" />
             <div className="absolute bottom-0 left-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl -z-10 animate-pulse delay-1000" />
 
             <div className="w-full max-w-md px-4">
-                <div className="mb-8 flex justify-center">
+                <div className="mb-2 flex justify-center">
                     <Link href="/" className="flex items-center gap-2 group">
                         <div className="relative w-12 h-12 transition-transform group-hover:scale-110">
                             <Image

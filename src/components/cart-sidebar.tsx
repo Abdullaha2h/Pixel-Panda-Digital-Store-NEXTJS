@@ -13,12 +13,25 @@ import {
     SheetFooter,
 } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
+
 import { useCart } from '@/context/cart-context';
+import { useAuth } from '@/context/auth-context';
+import { useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
 
 export default function CartSidebar({ children }: { children: React.ReactNode }) {
     const { items, removeItem, total, count, updateQuantity } = useCart();
+    const { user } = useAuth();
+    const router = useRouter();
     const [isOpen, setOpen] = React.useState(false);
+
+    const handleCheckout = (e: React.MouseEvent) => {
+        setOpen(false);
+        if (!user) {
+            e.preventDefault();
+            router.push('/login');
+        }
+    };
 
     return (
         <Sheet open={isOpen} onOpenChange={setOpen}>
@@ -151,7 +164,7 @@ export default function CartSidebar({ children }: { children: React.ReactNode })
                             </div>
                         </div>
                         <div className="grid grid-cols-1 gap-2 w-full">
-                            <Link href="/cart" className="w-full" onClick={() => setOpen(false)}>
+                            <Link href="/cart" className="w-full" onClick={handleCheckout}>
                                 <Button className="w-full h-12 rounded-xl font-bold group" size="lg">
                                     Checkout Now
                                     <ArrowRight className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1" />

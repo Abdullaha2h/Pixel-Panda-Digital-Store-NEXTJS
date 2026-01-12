@@ -80,7 +80,7 @@ export default function Navbar() {
                                     className="object-contain"
                                 />
                             </div>
-                            <span className="text-xl font-black tracking-tight hidden sm:block">
+                            <span className="text-xl font-black tracking-tight block">
                                 PIXEL PANDA
                             </span>
                         </Link>
@@ -215,6 +215,15 @@ export default function Navbar() {
                                         <Button className="font-bold rounded-full px-6">Sign up</Button>
                                     </Link>
                                 </div>
+                            )}
+
+                            {/* Mobile Signup Icon (Only if not logged in) */}
+                            {!user && (
+                                <Link href="/signup" className="md:hidden">
+                                    <Button variant="ghost" size="icon" className="h-10 w-10 p-0 rounded-full hover:bg-primary/10">
+                                        <UserPlus className="h-5 w-5 text-primary" />
+                                    </Button>
+                                </Link>
                             )}
 
                             {/* Mobile Menu Removed (moved to bottom bar) */}

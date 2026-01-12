@@ -123,12 +123,7 @@ export default function Home() {
         <div className="container md:px-4 mx-auto relative z-10">
           {/* Mobile Panda */}
           <div className="lg:hidden flex justify-center mb-5">
-            <div className={`absolute top-13 right-30 z-20 transition-opacity duration-500 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
-                  <Heart className="h-8 w-8 text-pink-500 fill-pink-500 animate-bounce" />
-                </div>
-                <div className={`absolute top-5 left-32 z-20 transition-opacity duration-500 delay-100 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
-                  <Heart className="h-6 w-6 text-pink-500 fill-pink-500 animate-bounce" />
-                </div>
+          
             <div className="animate-panda-sway">
               <div className="animate-panda-breathe">
                    {/* Blush Hearts */}
@@ -213,13 +208,7 @@ export default function Home() {
                 onMouseEnter={() => setShowBlush(true)}
                 onMouseLeave={() => setShowBlush(false)}
               >
-                {/* Blush Hearts */}
-                <div className={`absolute top-20 right-20 z-20 transition-opacity duration-500 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
-                  <Heart className="h-8 w-8 text-pink-500 fill-pink-500 animate-bounce" />
-                </div>
-                <div className={`absolute top-24 left-24 z-20 transition-opacity duration-500 delay-100 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
-                  <Heart className="h-6 w-6 text-pink-500 fill-pink-500 animate-bounce" />
-                </div>
+           
 
             
 

@@ -4,8 +4,9 @@ import { useAuth } from '@/context/auth-context';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import Link from 'next/link';
-import { Users, LayoutDashboard, Loader2, ArrowLeft, Package } from 'lucide-react';
+import { Users, LayoutDashboard, Loader2, ArrowLeft, Package, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetClose } from '@/components/ui/sheet';
 
 export default function AdminLayout({
     children,
@@ -36,9 +37,9 @@ export default function AdminLayout({
     }
 
     return (
-        <div className="flex min-h-screen pt-16">
-            {/* Sidebar */}
-            <aside className="w-64 border-r bg-background hidden md:block fixed h-[calc(100vh-4rem)] overflow-poster">
+        <div className="flex min-h-screen pt-16 relative">
+            {/* Desktop Sidebar */}
+            <aside className="w-64 border-r bg-background hidden md:block fixed h-[calc(100vh-4rem)] overflow-y-auto">
                 <div className="flex flex-col h-full py-6 px-3">
                     <div className="mb-6 px-4">
                         <h2 className="text-lg font-semibold tracking-tight">Admin Console</h2>
@@ -75,10 +76,60 @@ export default function AdminLayout({
                 </div>
             </aside>
 
-            {/* Mobile Sidebar (Optional/Simplified for now as not strictly requested but good to have, skipping for speed unless needed) */}
+            {/* Mobile Admin Nav - Floating Trigger */}
+            <div className="md:hidden fixed top-20 left-4 z-40">
+                <Sheet>
+                    <SheetTrigger asChild>
+                        <Button variant="default" size="icon" className="rounded-full shadow-lg">
+                            <LayoutDashboard className="h-5 w-5" />
+                        </Button>
+                    </SheetTrigger>
+                    <SheetContent side="left" className="w-64">
+                        <SheetTitle className="px-4 pt-4">Admin Menu</SheetTitle>
+                        <div className="flex flex-col h-full py-6 px-3">
+                            <div className="space-y-1">
+                                <SheetClose asChild>
+                                    <Link href="/admin">
+                                        <Button variant="ghost" className="w-full justify-start">
+                                            <LayoutDashboard className="mr-2 h-4 w-4" />
+                                            Dashboard
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                                <SheetClose asChild>
+                                    <Link href="/admin/users">
+                                        <Button variant="ghost" className="w-full justify-start">
+                                            <Users className="mr-2 h-4 w-4" />
+                                            Users
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                                <SheetClose asChild>
+                                    <Link href="/admin/products">
+                                        <Button variant="ghost" className="w-full justify-start">
+                                            <Package className="mr-2 h-4 w-4" />
+                                            Products
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                            </div>
+                            <div className="mt-auto">
+                                <SheetClose asChild>
+                                    <Link href="/">
+                                        <Button variant="outline" size="sm" className="w-full">
+                                            <ArrowLeft className="mr-2 h-4 w-4" />
+                                            Back to App
+                                        </Button>
+                                    </Link>
+                                </SheetClose>
+                            </div>
+                        </div>
+                    </SheetContent>
+                </Sheet>
+            </div>
 
             {/* Main Content */}
-            <main className="flex-1 md:ml-64 p-8">
+            <main className="flex-1 md:ml-64 p-4 md:p-8">
                 {children}
             </main>
         </div>

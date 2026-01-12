@@ -7,7 +7,7 @@ import ContactForm from '@/components/contact-form';
 
 export default function AboutPage() {
     return (
-        <div className="h-[calc(100vh-73px)] flex items-center justify-center p-4 overflow-hidden relative bg-background">
+        <div className="min-h-[calc(100vh-73px)] flex items-center justify-center p-4 relative bg-background">
             {/* Background Decorative Element */}
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-full w-full max-w-6xl bg-primary/5 rounded-full blur-[100px] -z-10" />
 

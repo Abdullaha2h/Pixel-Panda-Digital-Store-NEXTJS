@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export default function ContactPage() {
     return (
-        <div className="h-[calc(100vh-73px)] flex items-center px-4 relative overflow-hidden bg-background">
+        <div className="min-h-[calc(100vh-73px)] flex items-center px-4 relative bg-background py-10 md:py-0">
             {/* Professional Background Elements */}
             <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] -z-10 animate-pulse" />
             <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-purple-500/5 rounded-full blur-[100px] -z-10" />

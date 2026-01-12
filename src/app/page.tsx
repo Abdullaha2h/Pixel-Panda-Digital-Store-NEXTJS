@@ -3,7 +3,8 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, ShoppingCart, Star, Zap, Diamond, Crown, Loader2, Sparkles } from 'lucide-react';
+import { useRef } from 'react';
+import { ArrowRight, ShoppingCart, Star, Zap, Diamond, Crown, Loader2, Sparkles, Heart, Move } from 'lucide-react';
 import Image from 'next/image';
 import FeaturedCarousel from '@/components/featured-carousel';
 
@@ -12,9 +13,89 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [isPopping, setIsPopping] = useState(false);
 
+  // Hero Interaction State
+  const [rotation, setRotation] = useState(0);
+  const [isDragging, setIsDragging] = useState(false);
+  const imageRef = useRef<HTMLDivElement>(null);
+  const [showBlush, setShowBlush] = useState(false);
+
+  // Physics refs
+  const velocityRef = useRef(0);
+  const lastAngleRef = useRef(0);
+  const lastTimeRef = useRef(0);
+  const animationFrameRef = useRef<number | null>(null);
+
   const handlePandaClick = () => {
     setIsPopping(true);
+    setShowBlush(true);
     setTimeout(() => setIsPopping(false), 300);
+    setTimeout(() => setShowBlush(false), 2000); // Blush lasts 2s
+  };
+
+  const calculateAngle = (clientX: number, clientY: number) => {
+    if (!imageRef.current) return 0;
+    const rect = imageRef.current.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const angleRad = Math.atan2(clientY - centerY, clientX - centerX);
+    return angleRad * (180 / Math.PI);
+  };
+
+  const handleMouseDown = (e: React.MouseEvent) => {
+    setIsDragging(true);
+    // Stop any existing inertia
+    if (animationFrameRef.current) cancelAnimationFrame(animationFrameRef.current);
+
+    const startAngle = calculateAngle(e.clientX, e.clientY);
+    lastAngleRef.current = startAngle;
+    lastTimeRef.current = performance.now();
+    velocityRef.current = 0;
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging) return;
+
+    const currentAngle = calculateAngle(e.clientX, e.clientY);
+
+    // Handle wrap-around (e.g. crossing from 180 to -180)
+    let delta = currentAngle - lastAngleRef.current;
+    if (delta > 180) delta -= 360;
+    if (delta < -180) delta += 360;
+
+    // Update rotation
+    setRotation(prev => prev + delta);
+
+    // Calculate velocity (degrees per ms)
+    const now = performance.now();
+    const dt = now - lastTimeRef.current;
+    if (dt > 0) {
+      // Simple smoothing for velocity
+      const instantaneousVelocity = delta / dt;
+      velocityRef.current = instantaneousVelocity * 0.8 + velocityRef.current * 0.2;
+    }
+
+    lastAngleRef.current = currentAngle;
+    lastTimeRef.current = now;
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+
+    // Start inertia loop
+    const applyInertia = () => {
+      if (Math.abs(velocityRef.current) < 0.01) {
+        velocityRef.current = 0; // Stop
+        return;
+      }
+
+      // Apply friction
+      velocityRef.current *= 0.95; // Decay factor
+
+      setRotation(prev => prev + velocityRef.current * 16); // * 16 for approx frame time scaling
+
+      animationFrameRef.current = requestAnimationFrame(applyInertia);
+    };
+    applyInertia();
   };
 
   useEffect(() => {
@@ -41,26 +122,39 @@ export default function Home() {
         <div className="absolute inset-0 -z-10 bg-linear-to-b from-primary/10 via-background to-background" />
         <div className="container md:px-4 mx-auto relative z-10">
           {/* Mobile Panda */}
-            <div className="lg:hidden flex justify-center mb-5">
-              <div className="animate-panda-sway">
-                <div className="animate-panda-breathe">
-                  <div
-                    className={`relative w-48 h-48 sm:w-64 sm:h-64 cursor-pointer transition-all duration-700 ease-out 
+          <div className="lg:hidden flex justify-center mb-5">
+            <div className={`absolute top-13 right-30 z-20 transition-opacity duration-500 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
+                  <Heart className="h-8 w-8 text-pink-500 fill-pink-500 animate-bounce" />
+                </div>
+                <div className={`absolute top-5 left-32 z-20 transition-opacity duration-500 delay-100 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
+                  <Heart className="h-6 w-6 text-pink-500 fill-pink-500 animate-bounce" />
+                </div>
+            <div className="animate-panda-sway">
+              <div className="animate-panda-breathe">
+                   {/* Blush Hearts */}
+                
+                <div
+                  className={`relative w-48 h-48 sm:w-64 sm:h-64 cursor-pointer transition-all duration-700 ease-out 
                       active:scale-95
                       ${isPopping ? 'animate-pop' : ''}`}
-                    onClick={handlePandaClick}
-                  >
-                    <Image
-                      src="/mobile_hero.svg"
-                      alt="Pixel Panda Mascot"
-                      fill
-                      priority
-                      className="object-contain drop-shadow-[0_20px_50px_rgba(var(--primary),0.2)]"
-                    />
+                  onClick={handlePandaClick}
+                >
+                  <Image
+                    src="/mobile_hero.svg"
+                    alt="Pixel Panda Mascot"
+                    fill
+                    priority
+                    className="select-none object-contain drop-shadow-[0_20px_50px_rgba(var(--primary),0.2)]"
+                  />
+                  {/* Cheek Blush for Mobile */}
+                  <div className={`absolute inset-0 z-10 pointer-events-none transition-opacity duration-500 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
+                    <div className="absolute top-[55%] left-[38%] w-6 h-3 sm:w-8 sm:h-4 bg-pink-400/30 rounded-full blur-lg animate-pulse" />
+                    <div className="absolute top-[55%] right-[38%] w-6 h-3 sm:w-8 sm:h-4 bg-pink-400/30 rounded-full blur-lg animate-pulse" />
                   </div>
                 </div>
               </div>
             </div>
+          </div>
           <div className="grid lg:grid-cols-12 gap-12 items-center justify-center">
             <div className="lg:col-span-7 space-y-6 md:space-y-8 text-center lg:text-left">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm">
@@ -89,28 +183,67 @@ export default function Home() {
               </div>
             </div>
 
-            
+
 
             {/* Desktop Panda */}
-            <div className="hidden lg:block lg:col-span-5 relative group">
+            <div
+              className="hidden select-none lg:block lg:col-span-5 relative group"
+              onMouseMove={handleMouseMove}
+              onMouseUp={handleMouseUp}
+              onMouseLeave={handleMouseUp}
+              ref={imageRef}
+            >
               {/* Premium Glow Effect */}
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-primary/20 rounded-full blur-[100px] animate-glow-pulse -z-10" />
-              {/* Triple Layered Animation: Sway -> Breathe -> Interaction */}
-              <div className="animate-panda-sway">
-                <div className="animate-panda-breathe">
-                  <div
-                    className={`relative w-120 h-120 mx-auto cursor-pointer transition-all duration-700 ease-out 
-                      group-hover:-translate-y-4 group-hover:scale-105 active:scale-95 hover:brightness-110
-                      ${isPopping ? 'animate-pop' : ''}`}
-                    onClick={handlePandaClick}
-                  >
-                    <Image
-                      src="/hero.svg"
-                      alt="Pixel Panda Mascot"
-                      fill
-                      priority
-                      className="object-contain drop-shadow-[0_20px_50px_rgba(var(--primary),0.2)]"
-                    />
+
+              {/* Drag Hint */}
+              <div className="absolute -bottom-12 left-1/2 -translate-x-1/2 flex items-center gap-2 text-muted-foreground/60 text-xs font-bold uppercase tracking-widest animate-pulse pointer-events-none">
+                <Move className="h-3 w-3" />
+                <span>Drag to Rotate</span>
+              </div>
+
+              {/* 2D Container */}
+              <div
+                className="relative w-full h-full flex items-center justify-center transition-transform duration-75 ease-linear"
+                style={{
+                  transform: `rotate(${rotation}deg)`,
+                  cursor: isDragging ? 'grabbing' : 'grab'
+                }}
+                onMouseDown={handleMouseDown}
+                onMouseEnter={() => setShowBlush(true)}
+                onMouseLeave={() => setShowBlush(false)}
+              >
+                {/* Blush Hearts */}
+                <div className={`absolute top-20 right-20 z-20 transition-opacity duration-500 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
+                  <Heart className="h-8 w-8 text-pink-500 fill-pink-500 animate-bounce" />
+                </div>
+                <div className={`absolute top-24 left-24 z-20 transition-opacity duration-500 delay-100 ${showBlush ? 'opacity-100' : 'opacity-0'}`}>
+                  <Heart className="h-6 w-6 text-pink-500 fill-pink-500 animate-bounce" />
+                </div>
+
+            
+
+                {/* Triple Layered Animation: Sway -> Breathe -> Interaction */}
+                <div className="animate-panda-sway pointer-events-none"> {/* Disable pointer events to let parent handle drag */}
+                  <div className="animate-panda-breathe">
+                    <div
+                      className={`relative w-120 h-120 mx-auto transition-all duration-700 ease-out 
+                        ${isPopping ? 'animate-pop' : ''}`}
+                      onClick={(e) => {
+                        e.stopPropagation(); // Prevent drag start on click if needed, or allow both
+                        handlePandaClick();
+                      }}
+                    >
+                      <Image
+                        src="/hero.svg"
+                        alt="Pixel Panda Mascot"
+                        fill
+                        priority
+                        className="object-contain drop-shadow-[0_20px_50px_rgba(var(--primary),0.2)]"
+                        style={{ pointerEvents: 'none' }} // Ensure click passes through to parent if desired, or remove to catch clicks
+                        draggable={false}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

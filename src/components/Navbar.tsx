@@ -233,8 +233,8 @@ export default function Navbar() {
             </nav>
 
             {/* Modern Bottom Navigation for Mobile */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 z-50 pb-safe">
-                <div className="bg-background/80 backdrop-blur-xl border-t border-border/40 shadow-2xl shadow-black/10">
+            <div className="md:hidden fixed bottom-4 left-4 right-4 z-50">
+                <div className="bg-background/60 backdrop-blur-2xl border border-white/20 dark:border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.37)] rounded-2xl ">
                     <div className="grid grid-cols-5 gap-1 px-2 py-2">
                         {/* Home */}
                         <Link href="/" className={cn(
@@ -297,10 +297,16 @@ export default function Navbar() {
                             <SheetTrigger asChild>
                                 <button className={cn(
                                     "flex flex-col items-center justify-center gap-1 py-2 px-1 rounded-xl transition-all duration-300",
-                                    "text-muted-foreground hover:text-foreground hover:bg-muted/50"
+                                    "text-muted-foreground hover:text-foreground hover:bg-primary/5 active:scale-90"
                                 )}>
-                                    <Menu className="h-5 w-5" />
-                                    <span className="text-[10px] font-bold">Menu</span>
+                                    {user ? (
+                                        <div className="h-6 w-6 rounded-full bg-primary/20 flex items-center justify-center">
+                                            <User className="h-4 w-4 text-primary" />
+                                        </div>
+                                    ) : (
+                                        <Menu className="h-5 w-5" />
+                                    )}
+                                    <span className="text-[10px] font-bold">{user ? 'Me' : 'Menu'}</span>
                                 </button>
                             </SheetTrigger>
                             <SheetContent side="bottom" className="h-auto max-h-[85vh] rounded-t-3xl">
@@ -355,19 +361,19 @@ export default function Navbar() {
                                                             </Button></div>
                                                     </>
                                                 ) : (
-                                                    <>
+                                                    <><div className='flex flex-col items-center justify-center'>
                                                         <Link href="/login" onClick={() => setIsMobileMenuOpen(false)}>
-                                                            <Button variant="default" className="w-full gap-2">
+                                                            <Button variant="default" className="w-full max-w-[200px] gap-2">
                                                                 <LogIn className="h-4 w-4" />
                                                                 Login
                                                             </Button>
                                                         </Link>
                                                         <Link href="/signup" onClick={() => setIsMobileMenuOpen(false)}>
-                                                            <Button variant="outline" className="w-full gap-2">
+                                                            <Button variant="outline" className="w-full max-w-[200px] gap-2">
                                                                 <UserPlus className="h-4 w-4" />
                                                                 Sign Up
                                                             </Button>
-                                                        </Link>
+                                                        </Link></div>
                                                     </>
                                                 )}
                                             </div>
